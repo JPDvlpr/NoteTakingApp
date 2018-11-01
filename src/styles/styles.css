@@ -1,0 +1,22 @@
+Button{
+    -fx-border-width: 4px;
+    -fx-border-color: rgb(188, 184, 184);
+    -fx-background-color: rgb(188, 184, 184);
+    -fx-border-radius: 2px;
+}
+
+TextField{
+    -fx-border-width: 2px;
+    -fx-border-color: rgb(188, 184, 184);
+    -fx-background-color: #fffcf9;
+    -fx-border-radius: 2px;
+}
+
+#quote{
+    -fx-min-width: 400px;
+    -fx-min-height: 200px;
+}
+
+#post{
+    -fx-min-width: 400px;
+}
