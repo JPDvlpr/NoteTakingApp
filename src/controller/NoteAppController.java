@@ -55,7 +55,7 @@ public class NoteAppController {
                 if (isEmpty(body) || isEmpty(other)) {
                     return false;
                 }
-                model.viewNotes("quotes", body, other);
+                model.viewNotes("quotes");
                 return true;
         }
         return false;
