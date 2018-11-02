@@ -1,9 +1,6 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DBNotes implements INotesData {
     private Connection conn;
@@ -72,20 +69,28 @@ public class DBNotes implements INotesData {
 
     }
 
-    public String viewNotes(String tableName, String body, String other) {
+
+    public String[][] viewNotes(String tableName) {
+
+        String[][] results = null;
+
         try {
-            Statement stmt = conn.createStatement();
+            ResultSet retrieved = conn.createStatement().executeQuery(
+                    "SELECT * FROM 'quotes'"
+            );
 
-            String selectedQuote = "SELECT * FROM quotes";
+//            int numberOfResults = returnedNote.getRow();
+            //results = new String[numberOfResults][2];
 
-            //System.out.println("body: " + body + "other: " + other);
+            //want to add the quotes and authors to String multi-dimensional array
+            while (retrieved.next()) {
+//                    results[i][0] = returnedNote.getString("quote");
+//                    results[i][1] = returnedNote.getString("author");
+            }
 
-            stmt.execute(selectedQuote);
-
-        } catch (SQLException e) {
-            throw new IllegalStateException(
-                    "Error inserting quote: " + e.getMessage());
+        } catch (SQLException e1) {
+            e1.printStackTrace();
         }
-        return body;
+        return results;
     }
 }
