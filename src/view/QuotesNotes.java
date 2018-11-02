@@ -82,6 +82,7 @@ public class QuotesNotes {
         VBox vbox = new VBox();
 
         view.setOnAction(event -> {
+            note.viewNotes("quotes");
             //vbox.getChildren().add(note.viewNotes("quotes", ));
             //for (int i = 0; i < 20; i++) {
             //I want to show all database results from viewNotes function
@@ -98,6 +99,8 @@ public class QuotesNotes {
         grid.add(author, 0, 1, NUM_COLS, ROWSPAN);
 
         grid.add(post, 0, 2, NUM_COLS, ROWSPAN);
+
+        grid.add(view, 0, 3, NUM_COLS, ROWSPAN);
 
         grid.add(scrollPane, 0, 4, NUM_COLS, ROWSPAN);
 

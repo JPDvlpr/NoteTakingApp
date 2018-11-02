@@ -7,4 +7,5 @@ public interface INotesData {
 //    void removeColor(String name);
 //    void update(String name, Color color);
 //    public List<ColorPair> getColors();
-}
+//ijiji
+ }
