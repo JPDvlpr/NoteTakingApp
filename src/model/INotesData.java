@@ -1,11 +1,9 @@
 package model;
 
+import java.util.List;
+
 public interface INotesData {
     void addNotes(String tableName, String body, String other);
 
-    String[][] viewNotes(String tableName);
-//    void removeColor(String name);
-//    void update(String name, Color color);
-//    public List<ColorPair> getColors();
-//ijiji
- }
+    public List<NotePair> viewNotes();
+}

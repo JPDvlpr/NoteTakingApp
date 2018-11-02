@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBNotes implements INotesData {
     private Connection conn;
@@ -70,27 +72,29 @@ public class DBNotes implements INotesData {
     }
 
 
-    public String[][] viewNotes(String tableName) {
-
-        String[][] results = null;
+    @Override
+    public List<NotePair> viewNotes() {
 
         try {
             ResultSet retrieved = conn.createStatement().executeQuery(
                     "SELECT * FROM 'quotes'"
             );
+            List<NotePair> pairs = new ArrayList();
 
-//            int numberOfResults = returnedNote.getRow();
-            //results = new String[numberOfResults][2];
 
             //want to add the quotes and authors to String multi-dimensional array
             while (retrieved.next()) {
-//                    results[i][0] = returnedNote.getString("quote");
-//                    results[i][1] = returnedNote.getString("author");
+                String body = retrieved.getString("quote");
+                String other = retrieved.getString("author");
+
+                pairs.add(new NotePair(body, other));
+                System.out.println("Pairs: " + pairs);
             }
+            return pairs;
 
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
-        return results;
+        return null;
     }
 }
