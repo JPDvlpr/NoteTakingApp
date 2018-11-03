@@ -27,7 +27,7 @@ public class DBNotes implements INotesData {
 
             //execute() is for insert, update or delete
             String newNote = "INSERT INTO " + tableName + " VALUES (null,'" + body + "'";
-            if (!tableName.equals("todos")) {
+            if (!tableName.equals("todos") && !tableName.equals( "codesnippets" )) {
                 newNote += ", '" + other + "'";
             }
             newNote += ")";

@@ -25,9 +25,11 @@ public class CodeNotes
     private final int NUM_COLS = 4;
     private final int COL_WIDTH = 40;
     private final int BUTTON_PADDING = 10;
-    private final int WIN_WIDTH = COL_WIDTH * 7;
-    private final int WIN_HEIGHT = COL_WIDTH * 7;
+    private final int WIN_WIDTH = COL_WIDTH * 12;
+    private final int WIN_HEIGHT = COL_WIDTH * 12;
     private final double BUTTON_WIDTH = 40;
+    private final int ROWSPAN = 1;
+    
     private NoteAppController controller = new NoteAppController();
 
     public void gridLayout()
@@ -39,6 +41,7 @@ public class CodeNotes
         grid.setHgap(BUTTON_PADDING);
         grid.setVgap(BUTTON_PADDING);
         grid.setPadding(new Insets(BUTTON_PADDING));
+        grid.setGridLinesVisible( true );
     }
 
     /**
@@ -77,14 +80,14 @@ public class CodeNotes
         post.setId("post");
     
         post.setOnAction(event -> {
-            controller.handleNewNote("codeSnippet", codeNote.getText(), codeNote.getText());
+            controller.handleNewNote("codeSnippet", codeSnippet.getText(), codeNote.getText());
         });
     
-        grid.add(codeSnippet, 0,0, NUM_COLS,1);
+        grid.add(codeSnippet, 0,0, NUM_COLS, ROWSPAN);
     
-        grid.add(codeNote, 0, 1, NUM_COLS, 1);
+        grid.add(codeNote, 0, 1, NUM_COLS,  ROWSPAN);
     
-        grid.add(post, 0, 2, NUM_COLS, 1);
+        grid.add(post, 0, 2, NUM_COLS, ROWSPAN);
     
         scene.getChildren().add( grid );
     
