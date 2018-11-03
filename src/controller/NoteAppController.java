@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.scene.Node;
 import model.DBNotes;
 import model.INotesData;
 
@@ -55,7 +56,7 @@ public class NoteAppController {
                 if (isEmpty(body) || isEmpty(other)) {
                     return false;
                 }
-                model.viewNotes();
+                model.viewNotes("quotes", body, other);
                 return true;
         }
         return false;

@@ -46,14 +46,15 @@ public class QuotesNotes {
      * scene that has quote and author when user adds
      * the quote gets saved to db. The user has the
      * option to view all of their quotes
+     *
      * @param defaultButtons
      * @return
      */
     public Scene getScene(HBox defaultButtons) {
-    
-        VBox scene = new VBox(  );
-        scene.getChildren().add( defaultButtons );
-    
+
+        VBox scene = new VBox();
+        scene.getChildren().add(defaultButtons);
+
         gridLayout();
 
         TextField quote = new TextField();
@@ -82,7 +83,7 @@ public class QuotesNotes {
         VBox vbox = new VBox();
 
         view.setOnAction(event -> {
-            note.viewNotes();
+            controller.handleSelectNote("quote", quote.getText(), author.getText());
             //vbox.getChildren().add(note.viewNotes("quotes", ));
             //for (int i = 0; i < 20; i++) {
             //I want to show all database results from viewNotes function
@@ -103,7 +104,7 @@ public class QuotesNotes {
 
         grid.add(scrollPane, 0, 4, NUM_COLS, ROWSPAN);
 
-        scene.getChildren().add( grid );
+        scene.getChildren().add(grid);
         return new Scene(scene, WIN_WIDTH, WIN_HEIGHT);
     }
 }
