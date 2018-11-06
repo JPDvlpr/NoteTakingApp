@@ -62,19 +62,19 @@ public class NoteAppController {
             case "codesnippet":
                 return model.viewNotes("codesnippets");
             case "todo":
-                return model.viewNotes("todos");
-        }
+                return model.viewToDos();
+         }
         return null;
     }
 
     private boolean isEmpty(String value) {
         return value == null || value.equals("");
     }
-    
+
     @Override
     public String toString()
     {
-        
+
         return "NoteAppController{" +
                 "model=" + model +
                 ", noteData=" + Arrays.toString( noteData ) +

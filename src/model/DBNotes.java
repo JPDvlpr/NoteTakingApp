@@ -70,9 +70,8 @@ public class DBNotes implements INotesData {
         }
 
     }
-    
-    public void updateToDo(String title, String todo)
-    {
+
+    public void updateToDo(String title, String todo) {
         int todolistid = 0;
         try {
             Statement stmt = conn.createStatement();
@@ -80,23 +79,23 @@ public class DBNotes implements INotesData {
                     ", '" + todo + "', " + todolistid + ")";
 
 //            todolistid = stmt.executeUpdate(  );
-        
+
         } catch (SQLException e) {
             throw new IllegalStateException(
                     "Update Todo List: " + e.getMessage());
         }
-        
+
         try {
             Statement stmt = conn.createStatement();
-            
+
         } catch (SQLException e) {
             throw new IllegalStateException(
                     "Item Complete: " + e.getMessage());
         }
-        
+
     }
-    
-    
+
+
     @Override
     public List<NotePair> viewNotes(String tableName) {
 
@@ -125,11 +124,45 @@ public class DBNotes implements INotesData {
                         pairs.add(new NotePair(tableName, body, other));
                     }
                 case "codesnippets":
-                    while ((retrieved.next())){
+                    while ((retrieved.next())) {
                         String body = retrieved.getString("codesnippet");
                         pairs.add(new NotePair(tableName, body, null));
                     }
+                case "todos":
+                    while ((retrieved.next())) {
+                        String body = retrieved.getString("title");
+                        String other = retrieved.getString("todo");
+                        pairs.add(new NotePair(tableName, body, other));
+                    }
+                case "todoitems":
+                    while ((retrieved.next())) {
+                        String other = retrieved.getString("todo");
+                        pairs.add(new NotePair(tableName, null, other));
+                    }
             }
+            return pairs;
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<NotePair> viewToDos(){
+        try {
+            ResultSet retrieved = conn.createStatement().executeQuery(
+                    "SELECT todo, title FROM todoitems INNER JOIN todos ON todos.id = todoitems.listid");
+
+            List<NotePair> pairs = new ArrayList();
+
+            while (retrieved.next()) {
+                String body = retrieved.getString("title");
+                String other = retrieved.getString("todo");
+
+                pairs.add(new NotePair("todoitems", body, other));
+            }
+
             return pairs;
 
         } catch (SQLException e1) {

@@ -39,12 +39,12 @@ public class ToDoNotes extends MenuUI {
      */
     public void gridLayout() {
         note.gridLayout();
-        getGrid( ).setAlignment(Pos.TOP_CENTER);
+        getGrid().setAlignment(Pos.TOP_CENTER);
         //grid.setGridLinesVisible(true);
-        getGrid( ).setId("grid");
-        getGrid( ).setHgap(BUTTON_PADDING);
-        getGrid( ).setVgap(BUTTON_PADDING);
-        getGrid( ).setPadding(new Insets(BUTTON_PADDING));
+        getGrid().setId("grid");
+        getGrid().setHgap(BUTTON_PADDING);
+        getGrid().setVgap(BUTTON_PADDING);
+        getGrid().setPadding(new Insets(BUTTON_PADDING));
     }
 
     /**
@@ -52,6 +52,7 @@ public class ToDoNotes extends MenuUI {
      * textbox fields get added to do and todos get
      * appened to the grid. The user has the option
      * to view all of their to-dos
+     *
      * @param defaultButtons
      * @return
      */
@@ -76,56 +77,56 @@ public class ToDoNotes extends MenuUI {
 
         final String[] names = new String[]{todo.getText()};
         final CheckBox[] cbs = new CheckBox[names.length];
-        
+
         Button view = new Button("View Todos");
         post.setMaxHeight(BUTTON_WIDTH);
         post.setId("todo");
-    
+
         DBNotes note = new DBNotes();
-    
+
         VBox vbox = new VBox();
         ScrollPane scrollPane = new ScrollPane(vbox);
         scrollPane.setFitToWidth(true);
-    
+
         view.setOnAction(event -> {
-            List<NotePair> list = controller.handleSelectNote("todo");
-    
+            List<NotePair> list = new ArrayList<>();
+
+            list = controller.handleSelectNote("todo");
             System.out.println(list);
-        
-            for (NotePair todoList : list) {
-            
-                TextField quoteField = new TextField();
-                quoteField.getStyleClass().add("todo-field");
-            
-                TextField authorField = new TextField();
-                authorField.getStyleClass().add("todo-field");
-            
+
+            for (NotePair noteList : list) {
+
+                TextField todoTitle = new TextField();
+
+                TextField todoItem = new TextField();
+
                 HBox noteField = new HBox();
-            
-                //quoteField.setStyle("-fx-text-inner-font-style: italic;");
-            
-                quoteField.setText("'" + todoList.getBody() + "'");
-                quoteField.setFont( Font.font("Verdana", FontPosture.ITALIC, 12));
-            
-                authorField.setText(todoList.getOther());
-                noteField.getChildren().addAll(quoteField, authorField);
+
+                todoTitle.setText(noteList.getBody());
+
+                todoItem.setText(noteList.getOther());
+                noteField.getChildren().addAll(todoTitle, todoItem);
                 vbox.getChildren().addAll(noteField);
+
+                System.out.println("title: " + todoTitle);
+                System.out.println("item: " + todoItem);
+
             }
             //System.out.println(controller.handleSelectNote("quote"));
-        
+
         });
 
-        getGrid( ).add(title, 0, 0, NUM_COLS, ROWSPAN);
+        getGrid().add(title, 0, 0, NUM_COLS, ROWSPAN);
 
-        getGrid( ).add(todo, 0, 1, NUM_COLS, ROWSPAN);
+        getGrid().add(todo, 0, 1, NUM_COLS, ROWSPAN);
 
-        getGrid( ).add(post, 0, 2, NUM_COLS, ROWSPAN);
-    
-        getGrid( ).add(view, 0, 3, NUM_COLS, ROWSPAN);
-    
-        getGrid( ).add(scrollPane, 0, 4, NUM_COLS, ROWSPAN);
-    
-    
+        getGrid().add(post, 0, 2, NUM_COLS, ROWSPAN);
+
+        getGrid().add(view, 0, 3, NUM_COLS, ROWSPAN);
+
+        getGrid().add(scrollPane, 0, 4, NUM_COLS, ROWSPAN);
+
+
         post.setOnAction(event -> {
             controller.handleNewNote("todo", title.getText(), todo.getText());
 //
@@ -138,18 +139,17 @@ public class ToDoNotes extends MenuUI {
 //            }
         });
 
-        scene.getChildren().add( getGrid( ) );
+        scene.getChildren().add(getGrid());
 
         return new Scene(scene, WIN_WIDTH, WIN_HEIGHT);
     }
-    
+
     @Override
-    public String toString()
-    {
-        
+    public String toString() {
+
         return "ToDoNotes{" +
                 "note=" + note +
-                ", grid=" + getGrid( ) +
+                ", grid=" + getGrid() +
                 ", NUM_COLS=" + NUM_COLS +
                 ", COL_WIDTH=" + COL_WIDTH +
                 ", ROW_INDEX=" + ROW_INDEX +
@@ -161,11 +161,10 @@ public class ToDoNotes extends MenuUI {
                 ", controller=" + controller +
                 '}';
     }
-    
-    public GridPane getGrid()
-    {
-        
+
+    public GridPane getGrid() {
+
         return grid;
     }
-    
+
 }
