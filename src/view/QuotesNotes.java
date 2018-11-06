@@ -6,7 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -15,8 +14,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import model.DBNotes;
 import model.NotePair;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,9 +48,6 @@ public class QuotesNotes {
      * scene that has quote and author when user adds
      * the quote gets saved to db. The user has the
      * option to view all of their quotes
-     *
-     * @param defaultButtons
-     * @return
      */
     public Scene getScene(HBox defaultButtons) {
 
@@ -71,13 +65,11 @@ public class QuotesNotes {
         author.setMaxHeight(BUTTON_WIDTH);
         author.setId("author");
 
-        Button post = new Button("Post");
+        Button post = new Button("PostQuote");
         post.setMaxHeight(BUTTON_WIDTH);
         post.setId("post");
 
-        post.setOnAction(event -> {
-            controller.handleNewNote("quote", quote.getText(), author.getText());
-        });
+        post.setOnAction(event -> controller.handleNewNote("quote", quote.getText(), author.getText()) );
 
         Button view = new Button("View Quotes");
         post.setMaxHeight(BUTTON_WIDTH);
@@ -90,7 +82,7 @@ public class QuotesNotes {
         scrollPane.setFitToWidth(true);
 
         view.setOnAction(event -> {
-            List<NotePair> list = new ArrayList<>();
+            List<NotePair> list;
 
             list = controller.handleSelectNote("quote");
             System.out.println(list);
@@ -130,5 +122,23 @@ public class QuotesNotes {
 
         scene.getChildren().add(grid);
         return new Scene(scene, WIN_WIDTH, WIN_HEIGHT);
+    }
+    
+    @Override
+    public String toString()
+    {
+        return "QuotesNotes{" +
+                "note=" + note +
+                ", grid=" + grid +
+                ", NUM_COLS=" + NUM_COLS +
+                ", COL_WIDTH=" + COL_WIDTH +
+                ", ROW_INDEX=" + ROW_INDEX +
+                ", ROWSPAN=" + ROWSPAN +
+                ", WIN_WIDTH=" + WIN_WIDTH +
+                ", WIN_HEIGHT=" + WIN_HEIGHT +
+                ", BUTTON_WIDTH=" + BUTTON_WIDTH +
+                ", BUTTON_PADDING=" + BUTTON_PADDING +
+                ", controller=" + controller +
+                '}';
     }
 }

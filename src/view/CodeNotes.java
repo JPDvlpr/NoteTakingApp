@@ -65,7 +65,7 @@ public class CodeNotes {
             System.out.println("CodeSnippet: " + newValue);
         });
 
-        Button post = new Button("Post");
+        Button post = new Button("PostCode");
         post.setMaxHeight(BUTTON_WIDTH);
         post.setId("post");
     

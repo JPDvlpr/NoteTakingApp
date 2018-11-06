@@ -12,9 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
-import model.DBNotes;
 import model.NotePair;
-
 import java.util.List;
 
 /**
@@ -70,7 +68,7 @@ public class HyperlinkNotes
             System.out.println("Hyperlink: " + newValue);
         });
 
-        Button post = new Button("Post");
+        Button post = new Button("PostLink");
         post.setMaxHeight(BUTTON_WIDTH);
         post.setId("post");
 
