@@ -56,8 +56,13 @@ public class NoteAppController {
     public List<NotePair> handleSelectNote(String type) {
         switch (type) {
             case "quote":
-
                 return model.viewNotes("quotes");
+            case "hyperlink":
+                return model.viewNotes("hyperlinks");
+            case "codesnippet":
+                return model.viewNotes("codesnippets");
+            case "todo":
+                return model.viewNotes("todos");
         }
         return null;
     }

@@ -5,12 +5,17 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
+import model.DBNotes;
+import model.NotePair;
+
+import java.util.List;
 
 /**
  * Hyperlink notes is one option of notes the user
@@ -69,6 +74,36 @@ public class HyperlinkNotes
         post.setMaxHeight(BUTTON_WIDTH);
         post.setId("post");
 
+        Button view = new Button("View Hyperlinks");
+        post.setMaxHeight(BUTTON_WIDTH);
+        post.setId("view");
+
+        VBox vbox = new VBox();
+        ScrollPane scrollPane = new ScrollPane(vbox);
+        scrollPane.setFitToWidth(true);
+
+        view.setOnAction(event -> {
+            List<NotePair> list;
+
+            list = controller.handleSelectNote("hyperlink");
+            System.out.println(list);
+
+            for (NotePair noteList : list) {
+
+                TextField titleField = new TextField();
+
+                TextField hyperlinkField = new TextField();
+
+                HBox noteField = new HBox();
+
+                titleField.setText(noteList.getBody());
+
+                hyperlinkField.setText(noteList.getOther());
+                noteField.getChildren().addAll(titleField, hyperlinkField);
+                vbox.getChildren().addAll(noteField);
+            }
+
+        });
         post.setOnAction(event -> {
             controller.handleNewNote("hyperlink", hyperlinkName.getText(), hyperlink.getText());
         });
@@ -78,7 +113,11 @@ public class HyperlinkNotes
         grid.add(hyperlink, 0, 1, NUM_COLS, ROWSPAN);
 
         grid.add(post, 0, 2, NUM_COLS, ROWSPAN);
-    
+
+        grid.add(view, 0, 3, NUM_COLS, ROWSPAN);
+
+        grid.add(scrollPane, 0, 4, NUM_COLS, ROWSPAN);
+
         scene.getChildren().add( grid );
     
         return new Scene(scene, WIN_WIDTH, WIN_HEIGHT);

@@ -27,7 +27,7 @@ public class DBNotes implements INotesData {
 
             //execute() is for insert, update or delete
             String newNote = "INSERT INTO " + tableName + " VALUES (null,'" + body + "'";
-            if (!tableName.equals("todos") && !tableName.equals( "codesnippets" )) {
+            if (!tableName.equals("todos") && !tableName.equals("codesnippets")) {
                 newNote += ", '" + other + "'";
             }
             newNote += ")";
@@ -77,18 +77,28 @@ public class DBNotes implements INotesData {
 
         try {
             ResultSet retrieved = conn.createStatement().executeQuery(
-                    "SELECT * FROM 'quotes'"
-            );
+                    "SELECT * FROM '" + tableName + "'");
+
             List<NotePair> pairs = new ArrayList();
 
 
             //want to add the quotes and authors to String multi-dimensional array
-            while (retrieved.next()) {
-                String body = retrieved.getString("quote");
-                 String other = retrieved.getString("author");
+            switch (tableName) {
 
-                pairs.add(new NotePair(tableName, body, other));
-                System.out.println("Pairs: " + pairs);
+                case "quotes":
+                    while (retrieved.next()) {
+                        String body = retrieved.getString("quote");
+                        String other = retrieved.getString("author");
+
+                        pairs.add(new NotePair(tableName, body, other));
+                    }
+                case "hyperlinks":
+                    while (retrieved.next()) {
+                        String body = retrieved.getString("title");
+                        String other = retrieved.getString("hyperlink");
+
+                        pairs.add(new NotePair(tableName, body, other));
+                    }
             }
             return pairs;
 

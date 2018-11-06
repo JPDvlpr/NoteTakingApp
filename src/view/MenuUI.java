@@ -104,7 +104,7 @@ public class MenuUI extends Application {
         buttonPanel.getChildren().addAll(getNotesButtons());
 //        Scene scene = new Scene(panel,WIDTH,HEIGHT);
         HyperlinkNotes notes = new HyperlinkNotes();
-        Scene newscene = (Scene) notes.getScene(buttonPanel);
+        Scene newscene = notes.getScene(buttonPanel);
         System.out.println("testing hyperlink");
 
         return newscene;
