@@ -1,10 +1,10 @@
 package controller;
 
-import javafx.scene.Node;
 import model.DBNotes;
 import model.INotesData;
 import model.NotePair;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class NoteAppController {
@@ -69,5 +69,15 @@ public class NoteAppController {
 
     private boolean isEmpty(String value) {
         return value == null || value.equals("");
+    }
+    
+    @Override
+    public String toString()
+    {
+        
+        return "NoteAppController{" +
+                "model=" + model +
+                ", noteData=" + Arrays.toString( noteData ) +
+                '}';
     }
 }
