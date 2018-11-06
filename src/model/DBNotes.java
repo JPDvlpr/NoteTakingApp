@@ -70,8 +70,33 @@ public class DBNotes implements INotesData {
         }
 
     }
+    
+    public void updateToDo(String title, String todo)
+    {
+        int todolistid = 0;
+        try {
+            Statement stmt = conn.createStatement();
+            String listItem = "INSERT INTO " + "todoitems" + " VALUES (null, " + false +
+                    ", '" + todo + "', " + todolistid + ")";
 
-
+//            todolistid = stmt.executeUpdate(  );
+        
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Update Todo List: " + e.getMessage());
+        }
+        
+        try {
+            Statement stmt = conn.createStatement();
+            
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Item Complete: " + e.getMessage());
+        }
+        
+    }
+    
+    
     @Override
     public List<NotePair> viewNotes(String tableName) {
 
@@ -98,6 +123,11 @@ public class DBNotes implements INotesData {
                         String other = retrieved.getString("hyperlink");
 
                         pairs.add(new NotePair(tableName, body, other));
+                    }
+                case "codesnippets":
+                    while ((retrieved.next())){
+                        String body = retrieved.getString("codesnippet");
+                        pairs.add(new NotePair(tableName, body, null));
                     }
             }
             return pairs;
