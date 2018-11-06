@@ -51,6 +51,9 @@ public class HyperlinkNotes
         gridLayout();
 
         TextField hyperlinkName = new TextField();
+        hyperlinkName.setId("textField");
+        hyperlinkName.setPromptText("Hyperlink Title");
+        
         hyperlinkName.setFont(Font.font("Helvetica", FontPosture.ITALIC, 14));
         hyperlinkName.setMaxHeight(BUTTON_WIDTH);
         hyperlinkName.setId("hyperlink-name");
@@ -60,6 +63,9 @@ public class HyperlinkNotes
         });
 
         TextField hyperlink = new TextField();
+        hyperlink.setId("textField");
+        hyperlink.setPromptText("Hyperlink");
+        
         hyperlink.setFont(Font.font("Helvetica", FontPosture.ITALIC, 14));
         hyperlink.setMaxHeight(BUTTON_WIDTH);
         hyperlink.setId("hyperlink");

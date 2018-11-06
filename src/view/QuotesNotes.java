@@ -57,11 +57,15 @@ public class QuotesNotes {
         gridLayout();
 
         TextField quote = new TextField();
+        quote.setId("textField");
+        quote.setPromptText("Post quote here");
         quote.setFont(Font.font("Helvetica", FontPosture.ITALIC, 14));
         quote.setMaxHeight(BUTTON_WIDTH);
         quote.setId("quote");
 
         TextField author = new TextField();
+        author.setId("textField");
+        author.setPromptText("Site Author");
         author.setMaxHeight(BUTTON_WIDTH);
         author.setId("author");
 

@@ -56,6 +56,9 @@ public class CodeNotes {
         gridLayout();
 
         TextField codeSnippet = new TextField();
+        codeSnippet.setId("textField");
+        codeSnippet.setPromptText("Type your code");
+        
         codeSnippet.setMaxHeight(BUTTON_WIDTH);
         codeSnippet.setId("codenote");
         codeSnippet.setStyle("-fx-font-family: 'monospaced';");
