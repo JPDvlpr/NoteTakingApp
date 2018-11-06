@@ -20,3 +20,11 @@ TextField{
 #post{
     -fx-min-width: 400px;
 }
+
+.quote-field{
+    -fx-font-weight: bold;
+}
+
+.author-field{
+    -fx-background-color: transparent;
+}

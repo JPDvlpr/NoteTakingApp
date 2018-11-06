@@ -3,6 +3,9 @@ package controller;
 import javafx.scene.Node;
 import model.DBNotes;
 import model.INotesData;
+import model.NotePair;
+
+import java.util.List;
 
 public class NoteAppController {
 
@@ -50,16 +53,13 @@ public class NoteAppController {
         return false;
     }
 
-    public boolean handleSelectNote(String type, String body, String other) {
+    public List<NotePair> handleSelectNote(String type) {
         switch (type) {
             case "quote":
-                if (isEmpty(body) || isEmpty(other)) {
-                    return false;
-                }
-                model.viewNotes("quotes", body, other);
-                return true;
+
+                return model.viewNotes("quotes");
         }
-        return false;
+        return null;
     }
 
     private boolean isEmpty(String value) {

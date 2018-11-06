@@ -73,7 +73,7 @@ public class DBNotes implements INotesData {
 
 
     @Override
-    public List<NotePair> viewNotes(String tableName, String body, String other) {
+    public List<NotePair> viewNotes(String tableName) {
 
         try {
             ResultSet retrieved = conn.createStatement().executeQuery(
@@ -84,8 +84,8 @@ public class DBNotes implements INotesData {
 
             //want to add the quotes and authors to String multi-dimensional array
             while (retrieved.next()) {
-                 body = retrieved.getString("quote");
-                 other = retrieved.getString("author");
+                String body = retrieved.getString("quote");
+                 String other = retrieved.getString("author");
 
                 pairs.add(new NotePair(tableName, body, other));
                 System.out.println("Pairs: " + pairs);

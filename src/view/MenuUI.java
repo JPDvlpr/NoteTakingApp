@@ -76,7 +76,6 @@ public class MenuUI extends Application {
         //panel.getChildren( ).addAll(buttons( ));
         panel.getChildren().addAll(getNotesButtons());
         Scene scene = new Scene(panel, WIDTH, HEIGHT);
-
         System.out.println("intro scene");
 
         return scene;
@@ -90,8 +89,10 @@ public class MenuUI extends Application {
 //        Scene scene = new Scene(panel,WIDTH,HEIGHT);
         QuotesNotes notes = new QuotesNotes();
         Scene scene = notes.getScene(buttonPanel);
+        scene.getStylesheets().add("styles/styles.css");
 
         System.out.println("testing note scene");
+
 
         return scene;
     }
@@ -120,16 +121,16 @@ public class MenuUI extends Application {
 
         return newscene;
     }
-    
+
     private Scene getCodesnippetScene() {
-        
+
         HBox buttonPanel = new HBox();
         buttonPanel.getChildren().addAll(getNotesButtons());
 //        Scene scene = new Scene(panel,WIDTH,HEIGHT);
         CodeNotes notes = new CodeNotes();
         Scene newscene = (Scene) notes.getScene(buttonPanel);
         System.out.println("testing Codesnippet");
-        
+
         return newscene;
     }
 
@@ -164,15 +165,12 @@ public class MenuUI extends Application {
                     case "codesnippetnotes":
                         primaryStage.setScene(getCodesnippetScene());
                         break;
-                        
+
                     default:
                         break;
-
                 }
             });
-
         }
-
         return buttons;
     }
 

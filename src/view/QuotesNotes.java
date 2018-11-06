@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -13,6 +14,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import model.DBNotes;
+import model.NotePair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * quotes notes is one option of notes the user
@@ -81,18 +86,37 @@ public class QuotesNotes {
         DBNotes note = new DBNotes();
 
         VBox vbox = new VBox();
-
-        view.setOnAction(event -> {
-            controller.handleSelectNote("quote", quote.getText(), author.getText());
-            //vbox.getChildren().add(note.viewNotes("quotes", ));
-            //for (int i = 0; i < 20; i++) {
-            //I want to show all database results from viewNotes function
-            //grid.add(note.viewNotes("quotes","",""), 0, 5, NUM_COLS, ROWSPAN);
-            //}
-        });
-
         ScrollPane scrollPane = new ScrollPane(vbox);
         scrollPane.setFitToWidth(true);
+
+        view.setOnAction(event -> {
+            List<NotePair> list = new ArrayList<>();
+
+            list = controller.handleSelectNote("quote");
+            System.out.println(list);
+
+            for (NotePair noteList : list) {
+
+                TextField quoteField = new TextField();
+                quoteField.getStyleClass().add("quote-field");
+
+                TextField authorField = new TextField();
+                authorField.getStyleClass().add("author-field");
+
+                HBox noteField = new HBox();
+
+                //quoteField.setStyle("-fx-text-inner-font-style: italic;");
+
+                quoteField.setText("'" + noteList.getBody() + "'");
+                quoteField.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
+
+                authorField.setText(noteList.getOther());
+                noteField.getChildren().addAll(quoteField, authorField);
+                vbox.getChildren().addAll(noteField);
+            }
+            //System.out.println(controller.handleSelectNote("quote"));
+
+        });
 
         grid.add(quote, 0, ROW_INDEX, NUM_COLS, ROWSPAN);
 
