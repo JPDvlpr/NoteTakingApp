@@ -1,6 +1,5 @@
 package view;
 
-import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,11 +8,10 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class Notes {
 
-    public GridPane grid = new GridPane();
+    private GridPane grid = new GridPane();
     private final int NUM_COLS = 4;
     private final int COL_WIDTH = 40;
     private final int BUTTON_PADDING = 10;
@@ -32,11 +30,11 @@ public class Notes {
 //    }
 
     public void gridLayout() {
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(BUTTON_PADDING);
-        grid.setVgap(BUTTON_PADDING);
-        grid.setPadding(new Insets(BUTTON_PADDING));
-        grid.setGridLinesVisible(true);
+        getGrid( ).setAlignment(Pos.CENTER);
+        getGrid( ).setHgap(BUTTON_PADDING);
+        getGrid( ).setVgap(BUTTON_PADDING);
+        getGrid( ).setPadding(new Insets(BUTTON_PADDING));
+        getGrid( ).setGridLinesVisible(true);
     }
 
     public Scene getScene(HBox defaultButtons)
@@ -46,12 +44,37 @@ public class Notes {
         gridLayout();
 //        grid.add( defaultButtons, 0,0, NUM_COLS,1);
         
-        ObservableList<ColumnConstraints> cols = grid.getColumnConstraints();
+        ObservableList<ColumnConstraints> cols = getGrid( ).getColumnConstraints();
         for (int i = 1; i <= NUM_COLS; i++) {
             cols.add(new ColumnConstraints(COL_WIDTH));
         }
         
-        scene.getChildren().add( grid );
+        scene.getChildren().add( getGrid( ) );
         return new Scene(scene, WIN_WIDTH, WIN_HEIGHT);
+    }
+    
+    @Override
+    public String toString()
+    {
+        
+        return "Notes{" +
+                "grid=" + getGrid( ) +
+                ", NUM_COLS=" + NUM_COLS +
+                ", COL_WIDTH=" + COL_WIDTH +
+                ", BUTTON_PADDING=" + BUTTON_PADDING +
+                ", WIN_WIDTH=" + WIN_WIDTH +
+                ", WIN_HEIGHT=" + WIN_HEIGHT +
+                '}';
+    }
+    
+    public GridPane getGrid()
+    {
+        
+        return grid;
+    }
+    
+    public void setGrid(GridPane grid)
+    {
+        this.grid = grid;
     }
 }

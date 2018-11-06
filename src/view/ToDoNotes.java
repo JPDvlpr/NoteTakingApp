@@ -8,6 +8,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import model.DBNotes;
+import model.NotePair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * To-do notes is one option of notes the user
@@ -16,7 +23,7 @@ import javafx.scene.layout.VBox;
 public class ToDoNotes extends MenuUI {
 
     private Notes note = new Notes();
-    public GridPane grid = new GridPane();
+    private GridPane grid = new GridPane();
     private final int NUM_COLS = 4;
     private final int COL_WIDTH = 40;
     private final int ROW_INDEX = 0;
@@ -32,12 +39,12 @@ public class ToDoNotes extends MenuUI {
      */
     public void gridLayout() {
         note.gridLayout();
-        grid.setAlignment(Pos.TOP_CENTER);
+        getGrid( ).setAlignment(Pos.TOP_CENTER);
         //grid.setGridLinesVisible(true);
-        grid.setId("grid");
-        grid.setHgap(BUTTON_PADDING);
-        grid.setVgap(BUTTON_PADDING);
-        grid.setPadding(new Insets(BUTTON_PADDING));
+        getGrid( ).setId("grid");
+        getGrid( ).setHgap(BUTTON_PADDING);
+        getGrid( ).setVgap(BUTTON_PADDING);
+        getGrid( ).setPadding(new Insets(BUTTON_PADDING));
     }
 
     /**
@@ -69,27 +76,96 @@ public class ToDoNotes extends MenuUI {
 
         final String[] names = new String[]{todo.getText()};
         final CheckBox[] cbs = new CheckBox[names.length];
-
-        grid.add(title, 0, 0, NUM_COLS, ROWSPAN);
-
-        grid.add(todo, 0, 1, NUM_COLS, ROWSPAN);
-
-        grid.add(post, 0, 2, NUM_COLS, ROWSPAN);
-
-        post.setOnAction(event -> {
-            controller.handleNewNote("todo", title.getText(), todo.getText());
-
-            for (int i = 0; i < names.length; i++) {
-                int j = 3;
-                final CheckBox cb = cbs[i] = new CheckBox(todo.getText());
-
-                grid.add(cb, 0, j, NUM_COLS, ROWSPAN);
-                j++;
+        
+        Button view = new Button("View Todos");
+        post.setMaxHeight(BUTTON_WIDTH);
+        post.setId("todo");
+    
+        DBNotes note = new DBNotes();
+    
+        VBox vbox = new VBox();
+        ScrollPane scrollPane = new ScrollPane(vbox);
+        scrollPane.setFitToWidth(true);
+    
+        view.setOnAction(event -> {
+            List<NotePair> list = controller.handleSelectNote("todo");
+    
+            System.out.println(list);
+        
+            for (NotePair todoList : list) {
+            
+                TextField quoteField = new TextField();
+                quoteField.getStyleClass().add("todo-field");
+            
+                TextField authorField = new TextField();
+                authorField.getStyleClass().add("todo-field");
+            
+                HBox noteField = new HBox();
+            
+                //quoteField.setStyle("-fx-text-inner-font-style: italic;");
+            
+                quoteField.setText("'" + todoList.getBody() + "'");
+                quoteField.setFont( Font.font("Verdana", FontPosture.ITALIC, 12));
+            
+                authorField.setText(todoList.getOther());
+                noteField.getChildren().addAll(quoteField, authorField);
+                vbox.getChildren().addAll(noteField);
             }
+            //System.out.println(controller.handleSelectNote("quote"));
+        
         });
 
-        scene.getChildren().add(grid);
+        getGrid( ).add(title, 0, 0, NUM_COLS, ROWSPAN);
+
+        getGrid( ).add(todo, 0, 1, NUM_COLS, ROWSPAN);
+
+        getGrid( ).add(post, 0, 2, NUM_COLS, ROWSPAN);
+    
+        getGrid( ).add(view, 0, 3, NUM_COLS, ROWSPAN);
+    
+        getGrid( ).add(scrollPane, 0, 4, NUM_COLS, ROWSPAN);
+    
+    
+        post.setOnAction(event -> {
+            controller.handleNewNote("todo", title.getText(), todo.getText());
+//
+//            for (int i = 0; i < names.length; i++) {
+//                int j = 3;
+//                final CheckBox cb = cbs[i] = new CheckBox(todo.getText());
+//
+//                grid.add(cb, 0, j, NUM_COLS, ROWSPAN);
+//                j++;
+//            }
+        });
+
+        scene.getChildren().add( getGrid( ) );
 
         return new Scene(scene, WIN_WIDTH, WIN_HEIGHT);
     }
+    
+    @Override
+    public String toString()
+    {
+        
+        return "ToDoNotes{" +
+                "note=" + note +
+                ", grid=" + getGrid( ) +
+                ", NUM_COLS=" + NUM_COLS +
+                ", COL_WIDTH=" + COL_WIDTH +
+                ", ROW_INDEX=" + ROW_INDEX +
+                ", ROWSPAN=" + ROWSPAN +
+                ", WIN_WIDTH=" + WIN_WIDTH +
+                ", WIN_HEIGHT=" + WIN_HEIGHT +
+                ", BUTTON_WIDTH=" + BUTTON_WIDTH +
+                ", BUTTON_PADDING=" + BUTTON_PADDING +
+                ", controller=" + controller +
+                '}';
+    }
+    
+    public GridPane getGrid()
+    {
+        
+        return grid;
+    }
+    
 }
