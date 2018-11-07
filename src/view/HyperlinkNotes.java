@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -13,6 +14,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import model.NotePair;
+import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -32,6 +37,9 @@ public class HyperlinkNotes
     private final double BUTTON_WIDTH = 40;
     private final int BUTTON_PADDING = 10;
     private NoteAppController controller = new NoteAppController();
+ 
+//    private HostServicesDelegate hostServices = HostServicesFactory.getInstance(this);
+
 
     public void gridLayout(){
         note.gridLayout();
@@ -47,9 +55,12 @@ public class HyperlinkNotes
     
         VBox scene = new VBox(  );
         scene.getChildren().add( buttonPanel );
-
         gridLayout();
-
+    
+        Hyperlink myHyperlink = new Hyperlink();
+        myHyperlink.setText("My Link Text");
+        
+        
         TextField hyperlinkName = new TextField();
         hyperlinkName.setId("textField");
         hyperlinkName.setPromptText("Hyperlink Title");
@@ -57,10 +68,9 @@ public class HyperlinkNotes
         hyperlinkName.setFont(Font.font("Helvetica", FontPosture.ITALIC, 14));
         hyperlinkName.setMaxHeight(BUTTON_WIDTH);
         hyperlinkName.setId("hyperlink-name");
-
-        hyperlinkName.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Name: " + newValue);
-        });
+    
+        hyperlinkName.textProperty().addListener((observable, oldValue, newValue) ->
+                System.out.println("Name: " + newValue) );
 
         TextField hyperlink = new TextField();
         hyperlink.setId("textField");
@@ -70,9 +80,8 @@ public class HyperlinkNotes
         hyperlink.setMaxHeight(BUTTON_WIDTH);
         hyperlink.setId("hyperlink");
 
-        hyperlink.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Hyperlink: " + newValue);
-        });
+        hyperlink.textProperty().addListener((observable, oldValue, newValue) ->
+                System.out.println("Hyperlink: " + newValue) );
 
         Button post = new Button("PostLink");
         post.setMaxHeight(BUTTON_WIDTH);
@@ -96,21 +105,20 @@ public class HyperlinkNotes
 
                 TextField titleField = new TextField();
 
-                TextField hyperlinkField = new TextField();
-
+                Button hyperlinkField = new Button();
+                hyperlinkField.setOnAction( event1 ->
+                        openUrl( noteList.getOther()) );
                 HBox noteField = new HBox();
 
                 titleField.setText(noteList.getBody());
-
+                
                 hyperlinkField.setText(noteList.getOther());
                 noteField.getChildren().addAll(titleField, hyperlinkField);
                 vbox.getChildren().addAll(noteField);
             }
 
         });
-        post.setOnAction(event -> {
-            controller.handleNewNote("hyperlink", hyperlinkName.getText(), hyperlink.getText());
-        });
+        post.setOnAction(event -> controller.handleNewNote("hyperlink", hyperlinkName.getText(), hyperlink.getText()) );
         
         grid.add(hyperlinkName, 0, ROW_INDEX, NUM_COLS, ROWSPAN);
 
@@ -125,5 +133,14 @@ public class HyperlinkNotes
         scene.getChildren().add( grid );
     
         return new Scene(scene, WIN_WIDTH, WIN_HEIGHT);
+    }
+    
+    public void openUrl(String url) {
+        try {
+            Desktop.getDesktop().browse(new URL("http://"+url).toURI());
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+    
     }
 }
