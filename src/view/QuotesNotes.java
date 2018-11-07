@@ -12,18 +12,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
-import model.DBNotes;
 import model.NotePair;
+
 import java.util.List;
 
 /**
  * quotes notes is one option of notes the user
  * can choose from to create
  */
-public class QuotesNotes {
+class QuotesNotes {
 
     private Notes note = new Notes();
-    public GridPane grid = new GridPane();
+    private GridPane grid = new GridPane();
     private final int NUM_COLS = 4;
     private final int COL_WIDTH = 40;
     private final int ROW_INDEX = 0;
@@ -34,10 +34,9 @@ public class QuotesNotes {
     private final int BUTTON_PADDING = 10;
     private NoteAppController controller = new NoteAppController();
 
-    public void gridLayout() {
+    private void gridLayout() {
         note.gridLayout();
         grid.setAlignment(Pos.CENTER);
-        //grid.setGridLinesVisible(true);
         grid.setId("grid");
         grid.setHgap(BUTTON_PADDING);
         grid.setVgap(BUTTON_PADDING);
@@ -49,7 +48,7 @@ public class QuotesNotes {
      * the quote gets saved to db. The user has the
      * option to view all of their quotes
      */
-    public Scene getScene(HBox defaultButtons) {
+    Scene getScene(HBox defaultButtons) {
 
         VBox scene = new VBox();
         scene.getChildren().add(defaultButtons);
@@ -73,13 +72,11 @@ public class QuotesNotes {
         post.setMaxHeight(BUTTON_WIDTH);
         post.setId("post");
 
-        post.setOnAction(event -> controller.handleNewNote("quote", quote.getText(), author.getText()) );
+        post.setOnAction(event -> controller.handleNewNote("quote", quote.getText(), author.getText()));
 
         Button view = new Button("View Quotes");
         post.setMaxHeight(BUTTON_WIDTH);
         post.setId("view");
-
-        DBNotes note = new DBNotes();
 
         VBox vbox = new VBox();
         ScrollPane scrollPane = new ScrollPane(vbox);
@@ -110,8 +107,6 @@ public class QuotesNotes {
                 noteField.getChildren().addAll(quoteField, authorField);
                 vbox.getChildren().addAll(noteField);
             }
-            //System.out.println(controller.handleSelectNote("quote"));
-
         });
 
         grid.add(quote, 0, ROW_INDEX, NUM_COLS, ROWSPAN);
@@ -127,10 +122,9 @@ public class QuotesNotes {
         scene.getChildren().add(grid);
         return new Scene(scene, WIN_WIDTH, WIN_HEIGHT);
     }
-    
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "QuotesNotes{" +
                 "note=" + note +
                 ", grid=" + grid +

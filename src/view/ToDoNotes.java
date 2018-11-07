@@ -4,16 +4,15 @@ import controller.NoteAppController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import model.DBNotes;
 import model.NotePair;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +25,6 @@ public class ToDoNotes extends MenuUI {
     private GridPane grid = new GridPane();
     private final int NUM_COLS = 4;
     private final int COL_WIDTH = 40;
-    private final int ROW_INDEX = 0;
     private final int ROWSPAN = 1;
     private final int WIN_WIDTH = COL_WIDTH * 12;
     private final int WIN_HEIGHT = COL_WIDTH * 12;
@@ -34,29 +32,16 @@ public class ToDoNotes extends MenuUI {
     private final int BUTTON_PADDING = 10;
     private NoteAppController controller = new NoteAppController();
 
-    /**
-     * Sets up a grid with the spacing and alignment
-     */
-    public void gridLayout() {
+    private void gridLayout() {
         note.gridLayout();
         getGrid().setAlignment(Pos.TOP_CENTER);
-        //grid.setGridLinesVisible(true);
         getGrid().setId("grid");
         getGrid().setHgap(BUTTON_PADDING);
         getGrid().setVgap(BUTTON_PADDING);
         getGrid().setPadding(new Insets(BUTTON_PADDING));
     }
 
-    /**
-     * scene that has title and to-do when user adds
-     * textbox fields get added to do and todos get
-     * appened to the grid. The user has the option
-     * to view all of their to-dos
-     *
-     * @param defaultButtons
-     * @return
-     */
-    public Scene getScene(HBox defaultButtons) {
+    Scene getScene(HBox defaultButtons) {
 
         VBox scene = new VBox();
         scene.getChildren().add(defaultButtons);
@@ -82,14 +67,12 @@ public class ToDoNotes extends MenuUI {
         post.setMaxHeight(BUTTON_WIDTH);
         post.setId("todo");
 
-        DBNotes note = new DBNotes();
-
         VBox vbox = new VBox();
         ScrollPane scrollPane = new ScrollPane(vbox);
         scrollPane.setFitToWidth(true);
 
         view.setOnAction(event -> {
-            List<NotePair> list = new ArrayList<>();
+            List<NotePair> list;
 
             list = controller.handleSelectNote("todo");
             System.out.println(list);
@@ -110,8 +93,6 @@ public class ToDoNotes extends MenuUI {
 
                 System.out.println("notelist: " + noteList);
             }
-            //System.out.println(controller.handleSelectNote("quote"));
-
         });
 
         getGrid().add(title, 0, 0, NUM_COLS, ROWSPAN);
@@ -124,18 +105,7 @@ public class ToDoNotes extends MenuUI {
 
         getGrid().add(scrollPane, 0, 4, NUM_COLS, ROWSPAN);
 
-
-        post.setOnAction(event -> {
-            controller.handleNewNote("todo", title.getText(), todo.getText());
-//
-//            for (int i = 0; i < names.length; i++) {
-//                int j = 3;
-//                final CheckBox cb = cbs[i] = new CheckBox(todo.getText());
-//
-//                grid.add(cb, 0, j, NUM_COLS, ROWSPAN);
-//                j++;
-//            }
-        });
+        post.setOnAction(event -> controller.handleNewNote("todo", title.getText(), todo.getText()));
 
         scene.getChildren().add(getGrid());
 
@@ -144,6 +114,7 @@ public class ToDoNotes extends MenuUI {
 
     @Override
     public String toString() {
+        final int ROW_INDEX = 0;
 
         return "ToDoNotes{" +
                 "note=" + note +
@@ -160,9 +131,8 @@ public class ToDoNotes extends MenuUI {
                 '}';
     }
 
-    public GridPane getGrid() {
+    private GridPane getGrid() {
 
         return grid;
     }
-
 }

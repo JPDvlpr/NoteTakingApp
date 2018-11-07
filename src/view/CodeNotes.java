@@ -21,21 +21,17 @@ import java.util.List;
 public class CodeNotes {
     private Notes note = new Notes();
     public GridPane grid = new GridPane();
-    private final int NUM_COLS = 4;
     private final int COL_WIDTH = 40;
-    private final int BUTTON_PADDING = 10;
-    private final int WIN_WIDTH = COL_WIDTH * 12;
     private final int WIN_HEIGHT = COL_WIDTH * 12;
-    private final double BUTTON_WIDTH = 40;
-    private final int ROWSPAN = 1;
 
     private NoteAppController controller = new NoteAppController();
 
-    public void gridLayout() {
+    private void gridLayout() {
         note.gridLayout();
         grid.setAlignment(Pos.CENTER);
         //grid.setGridLinesVisible(true);
         grid.setId("codenotes-grid");
+        int BUTTON_PADDING = 10;
         grid.setHgap(BUTTON_PADDING);
         grid.setVgap(BUTTON_PADDING);
         grid.setPadding(new Insets(BUTTON_PADDING));
@@ -47,8 +43,6 @@ public class CodeNotes {
      * the snippet gets added to db. The user has the option
      * to view all of their to-dos
      *
-     * @param buttonPanel
-     * @return
      */
     public Scene getScene(HBox buttonPanel) {
         VBox scene = new VBox();
@@ -58,15 +52,14 @@ public class CodeNotes {
         TextField codeSnippet = new TextField();
         codeSnippet.setId("textField");
         codeSnippet.setPromptText("Type your code");
-        
+
+        double BUTTON_WIDTH = 40;
         codeSnippet.setMaxHeight(BUTTON_WIDTH);
         codeSnippet.setId("codenote");
         codeSnippet.setStyle("-fx-font-family: 'monospaced';");
 //        codeSnippet.prefColumnCountProperty().bind(codeSnippet.textProperty().length());
 
-        codeSnippet.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("CodeSnippet: " + newValue);
-        });
+        codeSnippet.textProperty().addListener((observable, oldValue, newValue) -> System.out.println("CodeSnippet: " + newValue));
 
         Button post = new Button("PostCode");
         post.setMaxHeight(BUTTON_WIDTH);
@@ -100,10 +93,10 @@ public class CodeNotes {
         
         });
 
-        post.setOnAction(event -> {
-            controller.handleNewNote("codesnippet", codeSnippet.getText(), codeSnippet.getText());
-        });
+        post.setOnAction(event -> controller.handleNewNote("codesnippet", codeSnippet.getText(), codeSnippet.getText()));
 
+        int NUM_COLS = 4;
+        int ROWSPAN = 1;
         grid.add(codeSnippet, 0, 0, NUM_COLS, ROWSPAN);
 
         grid.add(post, 0, 1, NUM_COLS, ROWSPAN);
@@ -114,6 +107,7 @@ public class CodeNotes {
 
         scene.getChildren().add(grid);
 
+        int WIN_WIDTH = COL_WIDTH * 12;
         return new Scene(scene, WIN_WIDTH, WIN_HEIGHT);
     }
 }

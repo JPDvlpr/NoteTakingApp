@@ -24,34 +24,34 @@ import java.util.List;
  * Hyperlink notes is one option of notes the user
  * can choose from to create
  */
-public class HyperlinkNotes
+class HyperlinkNotes
 {
     private Notes note = new Notes();
-    public GridPane grid = new GridPane();
-    private final int NUM_COLS = 4;
-    private final int COL_WIDTH = 40;
-    private final int ROW_INDEX = 0;
-    private final int ROWSPAN = 1;
-    private final int WIN_WIDTH = COL_WIDTH * 12;
-    private final int WIN_HEIGHT = COL_WIDTH * 12;
-    private final double BUTTON_WIDTH = 40;
-    private final int BUTTON_PADDING = 10;
+    private GridPane grid = new GridPane();
     private NoteAppController controller = new NoteAppController();
- 
-//    private HostServicesDelegate hostServices = HostServicesFactory.getInstance(this);
 
-
-    public void gridLayout(){
+    private void gridLayout(){
         note.gridLayout();
         grid.setAlignment(Pos.CENTER);
         //grid.setGridLinesVisible(true);
         grid.setId("hyperlink-grid");
+        int BUTTON_PADDING = 10;
         grid.setHgap(BUTTON_PADDING);
         grid.setVgap(BUTTON_PADDING);
         grid.setPadding(new Insets(BUTTON_PADDING));
     }
 
-    public Scene getScene(HBox buttonPanel) {
+    /**
+     * the content of the hyperlink notes
+     */
+    Scene getScene(HBox buttonPanel) {
+        final int COL_WIDTH = 40;
+        final int WIN_WIDTH = COL_WIDTH * 12;
+        final int WIN_HEIGHT = COL_WIDTH * 12;
+        double BUTTON_WIDTH = 40;
+        int NUM_COLS = 4;
+        int ROW_INDEX = 0;
+        int ROWSPAN = 1;
     
         VBox scene = new VBox(  );
         scene.getChildren().add( buttonPanel );
@@ -119,7 +119,8 @@ public class HyperlinkNotes
 
         });
         post.setOnAction(event -> controller.handleNewNote("hyperlink", hyperlinkName.getText(), hyperlink.getText()) );
-        
+
+
         grid.add(hyperlinkName, 0, ROW_INDEX, NUM_COLS, ROWSPAN);
 
         grid.add(hyperlink, 0, 1, NUM_COLS, ROWSPAN);
@@ -135,7 +136,7 @@ public class HyperlinkNotes
         return new Scene(scene, WIN_WIDTH, WIN_HEIGHT);
     }
     
-    public void openUrl(String url) {
+    private void openUrl(String url) {
         try {
             Desktop.getDesktop().browse(new URL("http://"+url).toURI());
         } catch (IOException | URISyntaxException e) {
