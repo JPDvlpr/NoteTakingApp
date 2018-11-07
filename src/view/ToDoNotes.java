@@ -108,9 +108,7 @@ public class ToDoNotes extends MenuUI {
                 noteField.getChildren().addAll(todoTitle, todoItem);
                 vbox.getChildren().addAll(noteField);
 
-                System.out.println("title: " + todoTitle);
-                System.out.println("item: " + todoItem);
-
+                System.out.println("notelist: " + noteList);
             }
             //System.out.println(controller.handleSelectNote("quote"));
 

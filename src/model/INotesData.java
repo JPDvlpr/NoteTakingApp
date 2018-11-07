@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface INotesData {
@@ -8,4 +9,6 @@ public interface INotesData {
     List<NotePair> viewNotes(String type);
 
     List<NotePair> viewToDos();
+
+    void addToDo(String title, String todo);
 }

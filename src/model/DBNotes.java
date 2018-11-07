@@ -30,39 +30,40 @@ public class DBNotes implements INotesData {
             if (!tableName.equals("todos") && !tableName.equals("codesnippets")) {
                 newNote += ", '" + other + "'";
             }
-            newNote += ")";
+            newNote += ", null)";
+            addToDo(body, other);
+
+            //System.out.println(newNote);
             System.out.println("body: " + body + "other: " + other);
 
             stmt.execute(newNote);
-            if (tableName.equals("todos")) {
-                addToDo(body, other);
-            }
+
         } catch (SQLException e) {
             throw new IllegalStateException(
                     "Error inserting quote: " + e.getMessage());
         }
     }
 
+    @Override
     public void addToDo(String title, String todo) {
-        int todoid;
+        int todoid = 0;
+        title = "";
         try {
             Statement stmt = conn.createStatement();
 
-            todoid = stmt.getGeneratedKeys().getInt(1);
+//            todoid = stmt.getGeneratedKeys().getInt(1);
+            ResultSet retrieved = conn.createStatement().executeQuery(
+                    "SELECT * FROM todos");
 
-            System.out.println("todo id: " + todoid);
+            while ((retrieved.next())) {
+                todoid = retrieved.getInt("id") + 1;
+            }
 
-        } catch (SQLException e) {
-            throw new IllegalStateException(
-                    "Error inserting quote: " + e.getMessage());
-        }
+            System.out.println("todoid: " + todoid);
 
-        try {
-            Statement stmt = conn.createStatement();
-
-            String listItem = "INSERT INTO " + "todoitems" + " VALUES (null, " + false +
-                    ", '" + todo + "', " + todoid + ")";
-
+            String listItem = "INSERT INTO todoitems VALUES (null, " + "'" +
+                    todo + "', false, '" + todoid + "', current_timestamp)";
+            System.out.println(listItem);
             stmt.execute(listItem);
         } catch (SQLException e) {
             throw new IllegalStateException(
@@ -95,7 +96,6 @@ public class DBNotes implements INotesData {
 
     }
 
-
     @Override
     public List<NotePair> viewNotes(String tableName) {
 
@@ -103,8 +103,7 @@ public class DBNotes implements INotesData {
             ResultSet retrieved = conn.createStatement().executeQuery(
                     "SELECT * FROM '" + tableName + "'");
 
-            List<NotePair> pairs = new ArrayList();
-
+            List<NotePair> pairs = new ArrayList<>();
 
             //want to add the quotes and authors to String multi-dimensional array
             switch (tableName) {
@@ -126,17 +125,23 @@ public class DBNotes implements INotesData {
                 case "codesnippets":
                     while ((retrieved.next())) {
                         String body = retrieved.getString("codesnippet");
+
                         pairs.add(new NotePair(tableName, body, null));
+
+                        System.out.println("Model Pairs:" + pairs);
                     }
                 case "todos":
                     while ((retrieved.next())) {
                         String body = retrieved.getString("title");
                         String other = retrieved.getString("todo");
+
                         pairs.add(new NotePair(tableName, body, other));
+                        System.out.println("Todo pairs: " + pairs);
                     }
                 case "todoitems":
                     while ((retrieved.next())) {
                         String other = retrieved.getString("todo");
+
                         pairs.add(new NotePair(tableName, null, other));
                     }
             }
@@ -149,18 +154,23 @@ public class DBNotes implements INotesData {
     }
 
     @Override
-    public List<NotePair> viewToDos(){
+    public List<NotePair> viewToDos() {
         try {
             ResultSet retrieved = conn.createStatement().executeQuery(
                     "SELECT todo, title FROM todoitems INNER JOIN todos ON todos.id = todoitems.listid");
 
-            List<NotePair> pairs = new ArrayList();
+            List<NotePair> pairs = new ArrayList<>();
 
             while (retrieved.next()) {
                 String body = retrieved.getString("title");
                 String other = retrieved.getString("todo");
 
+                System.out.println("view title: " + body);
+                System.out.println("view todo: " + other);
+
                 pairs.add(new NotePair("todoitems", body, other));
+                System.out.println("Pair: " + pairs);
+
             }
 
             return pairs;

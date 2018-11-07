@@ -60,6 +60,7 @@ public class NoteAppController {
             case "hyperlink":
                 return model.viewNotes("hyperlinks");
             case "codesnippet":
+                System.out.println("controller: " + model.viewNotes("codesnippets"));
                 return model.viewNotes("codesnippets");
             case "todo":
                 return model.viewToDos();
