@@ -13,7 +13,6 @@ public class DBNotes implements INotesData {
 
             //JDBC quirk
             Class.forName("org.sqlite.JDBC"); //fix our project classpath
-            System.out.println("Connected to DB");
         } catch (SQLException | ClassNotFoundException e) {
             throw new IllegalStateException(
                     "Cannot connect to DB: " + e.getMessage());
@@ -28,19 +27,16 @@ public class DBNotes implements INotesData {
             //execute() is for insert, update or delete
             String newNote = "INSERT INTO " + tableName + " VALUES (null,'" + body + "'";
             if (!tableName.equals("todos") && !tableName.equals("codesnippets")) {
-                newNote += ", '" + other + "'";
-            }
-            newNote += ", null)";
-            addToDo(body, other);
-
-            //System.out.println(newNote);
-            System.out.println("body: " + body + "other: " + other);
+                newNote += ", '" + other + "', current_timestamp)";
+                stmt.execute(newNote);
+            }else
+            newNote += ", current_timestamp)";
 
             stmt.execute(newNote);
 
         } catch (SQLException e) {
             throw new IllegalStateException(
-                    "Error inserting quote: " + e.getMessage());
+                    "Error inserting " + tableName + ": " + e.getMessage());
         }
     }
 
@@ -59,17 +55,14 @@ public class DBNotes implements INotesData {
                 todoid = retrieved.getInt("id") + 1;
             }
 
-            System.out.println("todoid: " + todoid);
 
             String listItem = "INSERT INTO todoitems VALUES (null, " + "'" +
                     todo + "', false, '" + todoid + "', current_timestamp)";
-            System.out.println(listItem);
             stmt.execute(listItem);
         } catch (SQLException e) {
             throw new IllegalStateException(
                     "Error inserting quote: " + e.getMessage());
         }
-
     }
 
     public void updateToDo(String title, String todo) {
@@ -93,7 +86,6 @@ public class DBNotes implements INotesData {
             throw new IllegalStateException(
                     "Item Complete: " + e.getMessage());
         }
-
     }
 
     @Override
@@ -128,7 +120,6 @@ public class DBNotes implements INotesData {
 
                         pairs.add(new NotePair(tableName, body, null));
 
-                        System.out.println("Model Pairs:" + pairs);
                     }
                 case "todos":
                     while ((retrieved.next())) {
@@ -136,7 +127,6 @@ public class DBNotes implements INotesData {
                         String other = retrieved.getString("todo");
 
                         pairs.add(new NotePair(tableName, body, other));
-                        System.out.println("Todo pairs: " + pairs);
                     }
                 case "todoitems":
                     while ((retrieved.next())) {
@@ -165,11 +155,8 @@ public class DBNotes implements INotesData {
                 String body = retrieved.getString("title");
                 String other = retrieved.getString("todo");
 
-                System.out.println("view title: " + body);
-                System.out.println("view todo: " + other);
 
                 pairs.add(new NotePair("todoitems", body, other));
-                System.out.println("Pair: " + pairs);
 
             }
 
@@ -180,4 +167,27 @@ public class DBNotes implements INotesData {
         }
         return null;
     }
+
+    public List<NotePair> sortNotes() {
+        try {
+            ResultSet retrieved = conn.createStatement().executeQuery(
+                    "SELECT * FROM quotes ORDER BY quotes.timestamp");
+
+            List<NotePair> pairs = new ArrayList<>();
+
+            while (retrieved.next()) {
+                String body = retrieved.getString("title");
+                String other = retrieved.getString("todo");
+
+                pairs.add(new NotePair("todoitems", body, other));
+            }
+
+            return pairs;
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        return null;
+    }
+
 }

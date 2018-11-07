@@ -71,8 +71,14 @@ public class NoteAppController {
                 return model.viewNotes("codesnippets");
             case "todo":
                 return model.viewToDos();
+            case "filter":
+                return model.viewNotes("quotes");
         }
         return null;
+    }
+
+    public List<NotePair> handleSortedNotes(){
+        return model.sortNotes();
     }
 
     private boolean isEmpty(String value) {

@@ -68,6 +68,7 @@ public class ToDoNotes extends MenuUI {
         post.setId("todo");
 
         VBox vbox = new VBox();
+
         ScrollPane scrollPane = new ScrollPane(vbox);
         scrollPane.setFitToWidth(true);
 
@@ -79,17 +80,21 @@ public class ToDoNotes extends MenuUI {
 
             for (NotePair noteList : list) {
 
-                TextField todoTitle = new TextField();
+                VBox innerVBox = new VBox();
 
-                TextField todoItem = new TextField();
+                TextField todoTitle = new TextField();
+                todoTitle.setEditable(false);
+
+                CheckBox todoItem = new CheckBox();
 
                 HBox noteField = new HBox();
 
                 todoTitle.setText(noteList.getBody());
-
                 todoItem.setText(noteList.getOther());
                 noteField.getChildren().addAll(todoTitle, todoItem);
-                vbox.getChildren().addAll(noteField);
+
+                innerVBox.getChildren().addAll(noteField);
+                vbox.getChildren().addAll(innerVBox);
 
                 System.out.println("notelist: " + noteList);
             }

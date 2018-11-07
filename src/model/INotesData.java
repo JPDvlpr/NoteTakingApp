@@ -13,4 +13,5 @@ public interface INotesData {
     List<NotePair> viewNotes(String type);
 
     List<NotePair> viewToDos();
+    List<NotePair> sortNotes();
 }

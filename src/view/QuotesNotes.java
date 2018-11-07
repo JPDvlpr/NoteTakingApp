@@ -48,7 +48,7 @@ class QuotesNotes {
      * the quote gets saved to db. The user has the
      * option to view all of their quotes
      */
-    Scene getScene(HBox defaultButtons) {
+    public Scene getScene(HBox defaultButtons) {
 
         VBox scene = new VBox();
         scene.getChildren().add(defaultButtons);
